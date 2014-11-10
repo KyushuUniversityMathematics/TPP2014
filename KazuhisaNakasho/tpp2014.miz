@@ -1,0 +1,175 @@
+
+environ
+
+ vocabularies RELAT_1, NAT_1, NUMBERS, INT_1, CARD_1, ARYTM_1, XXREAL_0,
+      ARYTM_3;
+ notations ORDINAL1, XCMPLX_0, XXREAL_0, INT_1, NAT_D;
+ constructors NAT_D, RVSUM_1;
+ registrations XREAL_0, ORDINAL1, INT_1, NAT_1, XXREAL_0;
+ requirements NUMERALS, SUBSET, REAL, ARITHM;
+ equalities INT_1;
+ theorems XREAL_1, NAT_1, NAT_D, INT_4;
+ schemes NAT_1;
+
+begin
+
+reserve a,b,c,x,y,z for Nat;
+reserve a0,b0,c0,a1,b1,c1 for Nat;
+
+theorem LM1:
+  b = a mod 3 implies b = 0 or ... or b = 2
+  proof
+    assume b = a mod 3; then
+    b < 3 by NAT_D:1; then
+    b < 2 + 1; then
+    b <= 2 by NAT_1:13;
+    hence thesis;
+  end;
+  
+theorem LM2:
+  a * a mod 3 = 0 iff a mod 3 = 0
+  proof
+    set b = a mod 3;
+    hereby
+      assume
+      A1: a * a mod 3 = 0;
+      A2: b * b mod 3 = 0 by A1,NAT_D:67;
+      A3: b = 0 or ... or b = 2 by LM1;
+      
+      not (b = 1 or b = 2)
+      proof
+        assume b = 1 or b = 2; then
+        per cases;
+        suppose
+          b = 1;
+          hence contradiction by A2,NAT_D:14;
+        end;
+        suppose
+          b = 2; then
+          b * b mod 3 = 3 * 1 + 1 mod 3
+                     .= 1 mod 3 by NAT_D:21
+                     .= 1 by NAT_D:24;
+          hence contradiction by A1,NAT_D:67;
+        end;
+      end;
+      hence b = 0 by A3;
+    end;
+    
+    assume
+    A4: b = 0;
+    thus a * a mod 3 = b * b mod 3 by NAT_D:67
+                    .= 0 by A4,NAT_D:26;
+  end;
+
+theorem LM3:
+  a > 0 implies (a divides b iff b mod a = 0)
+  proof
+    assume a > 0; then
+    a divides b - 0 iff b mod a = 0 mod a by INT_4:23;
+    hence thesis by NAT_D:26;
+  end;
+
+theorem EX1:
+  a * a mod 3 = 0 or a * a mod 3 = 1
+  proof
+    a mod 3 = 0 or ... or a mod 3 = 2 by LM1; then
+    per cases;
+    suppose
+      a mod 3 = 0; then
+      a * a mod 3 = 0 * 0 mod 3 by NAT_D:67;
+      hence thesis by NAT_D:26;
+    end;
+    suppose
+      a mod 3 = 1; then
+      a * a mod 3 = 1 * 1 mod 3 by NAT_D:67;
+      hence thesis by NAT_D:14;
+    end;
+    suppose
+      a mod 3 = 2; then
+      a * a mod 3 = 2 * 2 mod 3 by NAT_D:67
+                 .= 3 * 1 + 1 mod 3
+                 .= 1 mod 3 by NAT_D:21;
+      hence thesis by NAT_D:14;
+    end;
+  end;
+
+theorem EX2:
+  a * a + b * b = 3 * (c * c) implies
+  3 divides a & 3 divides b & 3 divides c
+  proof
+    assume
+    A1: a * a + b * b = 3 * (c * c); then
+    A2: (a * a mod 3) + (b * b mod 3) mod 3
+          = 3 * (c * c) mod 3 by NAT_D:66
+         .= 0 by NAT_D:13;
+    
+    a * a mod 3 = 0 & b * b mod 3 = 0
+    proof
+      assume not (a * a mod 3 = 0 & b * b mod 3 = 0); then
+      per cases by EX1;
+      suppose
+        a * a mod 3 = 0 & b * b mod 3 = 1;
+        hence contradiction by A2,NAT_D:14;
+      end;
+      suppose
+        a * a mod 3 = 1 & b * b mod 3 = 0;
+        hence contradiction by A2,NAT_D:14;
+      end;
+      suppose 
+        a * a mod 3 = 1 & b * b mod 3 = 1;
+        hence contradiction by A2,NAT_D:24;
+      end;
+    end; then
+    A3: a mod 3 = 0 & b mod 3 = 0 by LM2; then
+    A4: 3 divides a & 3 divides b by LM3;
+    
+    set a1 = a div 3, b1 = b div 3;
+    A5: a = 3 * a1 & b = 3 * b1 by A4,NAT_D:3;
+    
+    c * c = (a * a + b * b) / 3 by A1
+         .= 3 * (a1 * a1 + b1 * b1) by A5; then
+    c * c mod 3 = 0 by NAT_D:13; then
+    c mod 3 = 0 by LM2;
+    hence thesis by A3,LM3;
+  end;
+
+theorem EX3:
+  a * a + b * b = 3 * (c * c) implies a = 0 & b = 0 & c = 0
+  proof
+    defpred P[Nat] means
+    $1 > 0 & ex x,y st x * x + y * y = 3 * ($1 * $1);
+    
+    assume
+    A1: a * a + b * b = 3 * (c * c);
+    
+    A2: c = 0
+    proof
+      assume c <> 0; then
+      A3: ex c st P[c] by A1;
+      
+      consider c0 such that
+      A4: P[c0] and
+      A5: for z st P[z] holds c0 <= z from NAT_1:sch 5(A3);
+      
+      consider a0,b0 such that
+      A6: a0 * a0 + b0 * b0 = 3 * (c0 * c0) by A4;
+      A7: 3 divides a0 & 3 divides b0 & 3 divides c0 by A6,EX2;
+      
+      set a1 = a0 div 3, b1 = b0 div 3, c1 = c0 div 3;
+      A8: a0 = 3 * a1 & b0 = 3 * b1 & c0 = 3 * c1 by A7,NAT_D:3;
+      A9: a1 * a1 + b1 * b1 = (9 * a1 * a1 + 9 * b1 * b1) / 9
+                            .= 3 * c0 * c0 / 9 by A6,A8
+                            .= 3 * c1 * c1 by A8;
+      P[c1] by A4,A7,A9,NAT_D:3;
+      hence contradiction by A4,A5,A8,XREAL_1:221;
+    end;
+    per cases by A1,A2,XREAL_1:71;
+    suppose
+      a = 0;
+      hence thesis by A1,A2,XREAL_1:129;
+    end;
+    suppose
+      b = 0;
+      hence thesis by A1,A2,XREAL_1:129;
+    end;
+  end;
