@@ -9,6 +9,7 @@ Cyri Cohen		:	Ssreflect
 Jaques Garrigues	:	Coq  
 Kazuhiko Sakaguchi	:	Ssreflect  
 Kazuhisa Nakasho	:	Mizar  
+Kei Tsujimoto : HOL Light  
 Mitsuharu Yamamoto	:	Ssreflect, HOL4  
 Sosuke Moriguchi	:	Coq  
 Takashi Miyamoto	:	Coq  
