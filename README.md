@@ -15,3 +15,8 @@ Mitsuharu Yamamoto	:	Ssreflect, HOL4
 Sosuke Moriguchi	:	Coq  
 Takashi Miyamoto	:	Coq  
 Yoichi Hirai		:	Ssreflect  
+
+---
+TPP2014 workshop HP:
+http://imi.kyushu-u.ac.jp/lasm/tpp2014/
+---
