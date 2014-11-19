@@ -16,6 +16,7 @@ Sosuke Moriguchi	:	Coq
 Takashi Miyamoto	:	Coq  
 Yoichi Hirai		:	Ssreflect  
 
+Public Repository since 2014/11/19.
 ---
 TPP2014 workshop HP:
 http://imi.kyushu-u.ac.jp/lasm/tpp2014/
