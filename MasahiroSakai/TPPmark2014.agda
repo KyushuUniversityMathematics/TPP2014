@@ -287,15 +287,21 @@ abstract
       lem1 : (toℕ (a mod 3) * toℕ (b mod 3)) mod 3 ≡ Fin.zero
       lem1 = begin
             (toℕ (a mod 3) * toℕ (b mod 3)) mod 3
-          ≡⟨ sym (mod-dist-* a b) ⟩
+          ≡⟨ lem1-a ⟩
             (a * b) mod 3
           ≡⟨ cong (λ x → x mod 3) a*b≡q*3 ⟩
             (q * 3) mod 3
           ≡⟨ cong (λ x → x mod 3) (CS.*-comm q 3) ⟩
             (3 * q) mod 3
-          ≡⟨ mod-dist-* 3 q ⟩
+          ≡⟨ lem1-b ⟩
             Fin.zero
           ∎
+        where
+          -- If I inline these lemmas, Agda takes significant time to type-check. Why?
+          lem1-a : (toℕ (a mod 3) * toℕ (b mod 3)) mod 3 ≡ (a * b) mod 3
+          lem1-a = sym (mod-dist-* a b)
+          lem1-b : (3 * q) mod 3 ≡ Fin.zero
+          lem1-b = mod-dist-* 3 q
   
       lem2 : ∀ (a b : Fin 3) → ((toℕ a * toℕ b) mod 3 ≡ Fin.zero) → (a ≡ Fin.zero) ⊎ (b ≡ Fin.zero)
       lem2 Fin.zero _ _ = inj₁ refl
