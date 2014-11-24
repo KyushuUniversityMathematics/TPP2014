@@ -7,7 +7,7 @@ Theorem proving and provers for reliable theory and implementations
 
 - Cyri Cohen (Ssreflect)  
 - Fadoua Ghourabi (Isabelle/HOL)  
-- [Jaques Garrigues](https://github.com/KyushuUniversityMathematics/TPP2014/wiki/Jaques-Garrigue) (Coq)  
+- [Jacques Garrigues](https://github.com/KyushuUniversityMathematics/TPP2014/wiki/Jacques-Garrigue) (Coq)  
 - Kazuhiko Sakaguchi (Ssreflect)  
 - Kazuhisa Nakasho (Mizar)  
 - Kei Tsujimoto (HOL Light)  
