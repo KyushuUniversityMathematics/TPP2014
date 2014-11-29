@@ -125,7 +125,7 @@ let prop2 = prove
 
 (* ------------------------------------------------------------------------- *)
 (* (iii) by induction.                                                       *)
-(* lem1 : a^2+b^2=3*c then !n.3^n|a,b,c.                                     *)
+(* lem1 : a^2+b^2=3*c^2 then !n.3^n|a,b,c.                                   *)
 (* lem2 : !n.3^n|x then x=0 using x<3^x.                                     *)
 (* DIVIDES_LE : |- !m n. m divides n ==> m <= n \/ n = 0                     *)
 (* ------------------------------------------------------------------------- *)
@@ -152,4 +152,25 @@ let prop3 = prove
     GEN_TAC THEN DISCH_THEN (MP_TAC o SPEC `x:num`) THEN
     MESON_TAC [DIVIDES_LE; NOT_LE; lem]) in
   MESON_TAC [lem1; lem2]);;
+
+(* ------------------------------------------------------------------------- *)
+(* (iii) by GCD.                                                             *)
+(* ------------------------------------------------------------------------- *)
+
+let prop3 = prove
+ (`!a b c. a EXP 2 + b EXP 2 = 3 * c EXP 2 ==> a = 0 /\ b = 0 /\ c = 0`,
+  REPEAT GEN_TAC THEN ASM_CASES_TAC `a = 0 /\ b = 0` THENL
+   [POP_ASSUM MP_TAC THEN CONV_TAC NUM_RING; ALL_TAC] THEN
+  FIRST_ASSUM
+    (MP_TAC o MATCH_MP GCD_COPRIME_EXISTS o REWRITE_RULE [GSYM GCD_ZERO]) THEN
+  STRIP_TAC THEN ABBREV_TAC `g = gcd (a,b)` THEN
+  SUBGOAL_TAC "" `~(gcd (g,c) = 0)` [ASM_MESON_TAC [GCD_ZERO]] THEN
+  FIRST_ASSUM (MP_TAC o MATCH_MP GCD_COPRIME_EXISTS) THEN STRIP_TAC THEN
+  ABBREV_TAC `G = gcd (g,c)` THEN REPEAT (FIRST_X_ASSUM SUBST_ALL_TAC) THEN
+  DISCH_TAC THEN
+  SUBGOAL_THEN `(a' * a'') EXP 2 + (b' * a'') EXP 2 = 3 * b'' EXP 2`
+    (MP_TAC o MATCH_MP prop2) THENL
+   [REPEAT (POP_ASSUM MP_TAC) THEN CONV_TAC NUM_RING;
+    ASM_MESON_TAC
+      [PRIME_TEST `3`; PRIME_DIVPROD; coprime; ARITH_RULE `~(3 = 1)`]]);;
 
