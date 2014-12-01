@@ -15,6 +15,7 @@ Theorem proving and provers for reliable theory and implementations
 - Kazuhisa Nakasho (Mizar)  
 - Kei Tsujimoto (HOL Light)  
 - Masahiko Sakai (Agda)  
+- Masahiro Sato (Coq)  
 - Mitsuharu Yamamoto (Ssreflect, HOL4)  
 - Sosuke Moriguchi (Coq)  
 - Takashi Miyamoto (Coq)  
