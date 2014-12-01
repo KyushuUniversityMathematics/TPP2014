@@ -22,8 +22,7 @@ val MULT3_SQR = prove (``!a. (a * 3)**2 = a**2 * 3 * 3``,
 val lemma2 = prove (``!c. 3 * (c * 3)**2 = (3 * c**2) * 3 * 3``,
     REWRITE_TAC [MULT3_SQR, MULT_ASSOC]);
 
-val lemma3 = prove (``!a b c. (a * 3)**2 + (b * 3)**2 =
-    	     	   	      (a**2 + b**2) * 3 * 3``,
+val lemma3 = prove (``!a b c. (a * 3)**2 + (b * 3)**2 = (a**2 + b**2) * 3 * 3``,
     REWRITE_TAC [MULT3_SQR, RIGHT_ADD_DISTRIB]);
 
 val TPPMark2014Q2 = store_thm ("TPPMark2014Q2",
@@ -54,23 +53,17 @@ val TPPMark2014Q3 = store_thm ("TPPMark2014Q3",
     REPEAT GEN_TAC
     THEN completeInduct_on `a + b + c`
     THEN Cases_on `v`
-    THENL [METIS_TAC [ADD_EQ_0]
+    THENL [DECIDE_TAC
     	   ,
-    	   REPEAT GEN_TAC
+	   POP_ASSUM (ASSUME_TAC o REWRITE_RULE [AND_IMP_INTRO]
+	   	      o CONV_RULE (TOP_DEPTH_CONV RIGHT_IMP_FORALL_CONV))
+	   THEN REPEAT GEN_TAC
 	   THEN REPEAT DISCH_TAC
-	   THEN `divides 3 a /\ divides 3 b /\ divides 3 c`
-	   	by METIS_TAC [TPPMark2014Q2]
 	   THEN `(?a'. a = a' * 3) /\ (?b'. b = b' * 3) /\ (?c'. c = c' * 3)`
-	   	by METIS_TAC [divides_def]
+	   	by METIS_TAC [TPPMark2014Q2, divides_def]
 	   THEN Q.UNDISCH_TAC `a**2 + b**2 = 3 * c**2`
-	   THEN ASM_REWRITE_TAC [lemma2, lemma3]
-	   THEN REWRITE_TAC [MULT_EQ_0, DECIDE ``~(3 = 0)``]
-	   THEN DISCH_THEN (fn thm => `(a'**2 + b'**2) = 3 * c'**2`
-		    	                  by SIMP_TAC arith_ss [thm])
-	   THEN `a + b + c = (a' + b' + c') * 3` by METIS_TAC [RIGHT_ADD_DISTRIB]
-	   THEN `0 < a' + b' + c'` by METIS_TAC [LESS_0, ZERO_LESS_MULT]
-	   THEN `a' + b' + c' < SUC n`
-	   	by METIS_TAC [LT_MULT_CANCEL_LBARE, DECIDE ``1 < 3``]
-	   THEN POP_ASSUM (fn thm => FIRST_ASSUM (ASSUME_TAC o C MATCH_MP thm))
-	   THEN METIS_TAC []]);
-
+	   THEN ASM_REWRITE_TAC [lemma2, lemma3, MULT_EQ_0, DECIDE ``~(3 = 0)``]
+	   THEN DISCH_TAC
+	   THEN FIRST_ASSUM MATCH_MP_TAC
+	   THEN Q.EXISTS_TAC `a' + b' + c'`
+	   THEN DECIDE_TAC]);
