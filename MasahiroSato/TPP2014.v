@@ -1,4 +1,4 @@
-B77;10103;0cRequire Import Coq.Numbers.Natural.Peano.NPeano.
+Require Import Coq.Numbers.Natural.Peano.NPeano.
 Require Import Coq.Arith.Plus.
 Require Import Coq.Arith.Mult.
 Require Import Coq.Arith.Wf_nat.
