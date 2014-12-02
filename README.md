@@ -7,6 +7,7 @@ Theorem proving and provers for reliable theory and implementations
 
 [Authors Wiki](https://github.com/KyushuUniversityMathematics/TPP2014/wiki/)
 
+- Adam Chlipala (Coq)  
 - Cyri Cohen (Ssreflect)  
 - Daisuke Sato (Coq)  
 - Fadoua Ghourabi (Isabelle/HOL)  
