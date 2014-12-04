@@ -72,8 +72,7 @@ s<s*ss : ∀ m n → suc m < suc m * suc (suc n)
 s<s*ss m n rewrite (CS.*-comm (1 + m) (2 + n)) = s<ss*s m n
 
 <⇒≢ : ∀ {a b} → a < b → a ≢ b
-<⇒≢ {zero} {suc b} (s≤s 0≤b) 0≡1+b with 0≡1+b
-... | ()
+<⇒≢ {zero} {suc b} (s≤s 0≤b) ()
 <⇒≢ {suc a} {suc b} (s≤s a<b) 1+a≡1+b = <⇒≢ a<b (cancel-+-left 1 1+a≡1+b)
 
 -- ---------------------------------------------------------------------------
